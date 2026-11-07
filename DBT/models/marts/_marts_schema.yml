@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  # ==================== FACTS ====================
+  - name: fact_air_quality
+    description: "Hourly air quality measurements"
+    columns:
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_id
+      - name: location_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_location')
+                field: location_id
+      - name: timestamp
+        tests:
+          - not_null
+
+      - name: aqi
+        tests:
+          - not_null
+
+      - name: pm2_5
+        tests:
+          - not_null
+
+      - name: pm10
+        tests:
+          - not_null
+
+  - name: fact_weather
+    description: "Daily weather and satellite data"
+    columns:
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_id
+      - name: location_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_location')
+                field: location_id
+      - name: aerosol_optical_depth
+        tests:
+          - not_null
+
+      - name: temperature_c
+        tests:
+          - not_null
+
+  # ==================== DIMENSIONS ====================
+  - name: dim_date
+    description: "Date dimension"
+    columns:
+      - name: date_id
+        tests:
+          - unique
+          - not_null
+
+      - name: date_utc
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_location
+    description: "Location dimension"
+    columns:
+      - name: location_id
+        tests:
+          - unique
+          - not_null
+
+      - name: city
+        tests:
+          - not_null
+
+  - name: dim_pollutant
+    description: "Pollutant reference table"
+    columns:
+      - name: pollutant_id
+        tests:
+          - unique
+          - not_null
+
+      - name: pollutant_code
+        tests:
+          - unique
+          - not_null

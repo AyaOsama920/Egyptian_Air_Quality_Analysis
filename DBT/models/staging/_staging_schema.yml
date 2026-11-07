@@ -1,0 +1,60 @@
+version: 2
+
+sources:
+  - name: air_quality_source
+    database: AIR_QUALITY_DB
+    schema: EGYPT_DATA
+    
+    tables:
+      - name: AIR_QUALITY
+        description: "OpenWeatherMap hourly air quality data"
+        columns:
+          - name: city
+            tests:
+              - not_null
+          
+          - name: timestamp
+            tests:
+              - not_null
+          
+          - name: aqi
+            tests:
+              - not_null
+      
+      - name: AIR_QUALITY_NASA
+        description: "NASA POWER daily weather data"
+        columns:
+          - name: city
+            tests:
+              - not_null
+          
+          - name: date
+            tests:
+              - not_null
+
+models:
+  - name: stg_egypt_air_quality
+    description: "Cleaned hourly air quality from OpenWeatherMap"
+    columns:
+      - name: city
+        tests:
+          - not_null
+      
+      - name: timestamp
+        tests:
+          - not_null
+      
+      - name: aqi
+        tests:
+          - not_null
+
+  - name: stg_nasa_air_quality
+    description: "Cleaned daily weather from NASA"
+    columns:
+      - name: city
+        tests:
+          - not_null
+      
+      - name: date_utc
+        tests:
+          - not_null
